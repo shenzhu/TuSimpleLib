@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/list.c
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+list.h
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/list.h
+
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/list.h
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/main.c
+stdio.h
+-
+

@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdint.h>
+
+#ifndef TUSIMPLELIB_LIST_H
+#define TUSIMPLELIB_LIST_H
+
+
+// One element of list
+struct List {
+    int32_t size;
+    int32_t type;
+    void *value;
+    int32_t currPos;
+};
+
+
+// Functions for list
+struct List *create_list(int32_t type);
+
+void *plus_list(struct List *list, void *value);
+
+void *next_list(struct List *list);
+
+void *getValue_list(struct List *list, int32_t position);
+
+#endif //TUSIMPLELIB_LIST_H

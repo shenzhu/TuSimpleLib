@@ -1,0 +1,3 @@
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir
