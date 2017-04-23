@@ -22,8 +22,7 @@ struct List *plus_list_helper(struct List *list, void *data);
 
 struct List *plus_list(struct List *list, ...);
 
-void *next_list(struct List *list);
+void *get_list_element(struct List *list, int index);
 
-void *getValue_list(struct List *list, int32_t position);
 
 #endif //TUSIMPLELIB_LIST_H

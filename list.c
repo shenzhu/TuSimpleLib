@@ -22,13 +22,16 @@ struct List *create_list(int32_t type) {
 }
 
 
-struct List* plus_list_helper(struct List* list, void* value) {
+struct List *plus_list_helper(struct List *list, void *value) {
     if (list->currPos >= list->size) {
         // Double list size
         list->size = list->size * 2;
-        list->value = (void**) realloc(list->value, list->size * sizeof(void*));
+        list->value = (void **) realloc(list->value, list->size * sizeof(void *));
     }
+
+    // Add element and reset size
     *(list->value + list->currPos) = value;
+    list->currPos++;
     return list;
 }
 
@@ -43,20 +46,17 @@ struct List *plus_list(struct List *list, ...) {
     va_list arg_ptr;
     va_start(arg_ptr, list);
 
-    void* data;
+    void *data;
     switch (list->type) {
         case INT:
-            printf("INT\n");
             data = intTovoid(va_arg(arg_ptr, int));
             break;
 
         case FLOAT:
-            printf("FLOAT\n");
             data = floatTovoid(va_arg(arg_ptr, double));
             break;
 
         case BOOL:
-            printf("BOOL\n");
             data = boolTovoid(va_arg(arg_ptr, bool));
             break;
 
@@ -66,21 +66,50 @@ struct List *plus_list(struct List *list, ...) {
 
     va_end(arg_ptr);
 
-    return list;
+    return plus_list_helper(list, data);
 }
 
+
+void *get_list_element(struct List *list, int index) {
+    // Corner case
+    if (list == NULL) {
+        printf("Error! get_list_element() : List does not exist. \n");
+        exit(1);
+    } else if (list->size == 0 || list->size <= index || list->size <= -index) {
+        printf("Error! get_list_element() : Index out of range. \n");
+        exit(1);
+    } else if (index < 0) {
+        index += list->size;
+    }
+
+    return *(list->value + index);
+}
+
+
 int main() {
-    // Test function: create_list
-    struct List *int_list = create_list(0);
-    printf("%d\n", int_list->type);
+//    // Test function: create_list
+//    struct List *intList = create_list(0);
+//    printf("%d\n", intList->type);
+//
+//    struct List *doubleList = create_list(1);
+//    printf("%d\n", doubleList->type);
+//
+//    // Test function: plus_list
+//    struct List *intListTest = plus_list(intList, 10);
+//    struct List *doubleListTest = plus_list(doubleList, 10.123);
 
-    struct List *double_list = create_list(1);
-    printf("%d\n", double_list->type);
-
-    // Test function: plus_list
-    struct List *int_list_test = plus_list(int_list, 10);
-    struct List *double_list_test = plus_list(double_list, 10.123);
-
+    // Test function: get_list_element
+    struct List *intListTest;
+    intListTest = create_list(INT);
+    intListTest = plus_list(intListTest, 10);
+    intListTest = plus_list(intListTest, 20);
+    intListTest = plus_list(intListTest, 30);
+    intListTest = plus_list(intListTest, 40);
+    printf("%d\n", intListTest->type);
+    printf("%d\n", intListTest->size);
+    void* intVoidPointerTest = get_list_element(intListTest, 3);
+    int intTest = voidToint(intVoidPointerTest);
+    printf("%d\n", intTest);
 
     return 0;
 }
