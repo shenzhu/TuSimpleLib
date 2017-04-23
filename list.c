@@ -148,7 +148,8 @@ int main() {
 //
 //    struct List *doubleList = create_list(1);
 //    printf("%d\n", doubleList->type);
-//
+
+
     // Test function: plus_list
     struct List* intListTest = create_list(INT);
     struct List* doubleListTest = create_list(FLOAT);
