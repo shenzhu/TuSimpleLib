@@ -5,6 +5,12 @@
 #include <string.h>
 
 
+#define INT 0
+#define FLOAT 1
+#define BOOL 2
+#define STRING 3
+
+
 #ifndef TUSIMPLELIB_CAST_H
 #define TUSIMPLELIB_CAST_H
 

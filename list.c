@@ -6,11 +6,6 @@
 #include "list.h"
 #include "cast.c"
 
-#define INT 0
-#define FLOAT 1
-#define BOOL 2
-#define STRING 3
-
 
 struct List *create_list(int32_t type) {
     struct List *newList = (struct List *) malloc(sizeof(struct List));

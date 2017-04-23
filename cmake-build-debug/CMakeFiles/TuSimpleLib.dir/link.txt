@@ -1,1 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/TuSimpleLib.dir/main.c.o CMakeFiles/TuSimpleLib.dir/list.c.o CMakeFiles/TuSimpleLib.dir/cast.c.o  -o TuSimpleLib 
