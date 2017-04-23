@@ -86,6 +86,16 @@ void *get_list_element(struct List *list, int index) {
 }
 
 
+int get_list_size(struct List *list) {
+    // Corner case
+    if (list == NULL) {
+        printf("Error! get_list_size() : List does not exist. \n");
+        exit(1);
+    }
+
+    return list->currPos;
+}
+
 int main() {
 //    // Test function: create_list
 //    struct List *intList = create_list(0);
@@ -98,16 +108,22 @@ int main() {
 //    struct List *intListTest = plus_list(intList, 10);
 //    struct List *doubleListTest = plus_list(doubleList, 10.123);
 
-    // Test function: get_list_element
+
+    // Test function: get_list_element, get_list_size
     struct List *intListTest;
     intListTest = create_list(INT);
     intListTest = plus_list(intListTest, 10);
+    printf("%d\n", get_list_size(intListTest));
+
     intListTest = plus_list(intListTest, 20);
+    printf("%d\n", get_list_size(intListTest));
+
     intListTest = plus_list(intListTest, 30);
-    intListTest = plus_list(intListTest, 40);
+    printf("%d\n", get_list_size(intListTest));
+
     printf("%d\n", intListTest->type);
     printf("%d\n", intListTest->size);
-    void* intVoidPointerTest = get_list_element(intListTest, 3);
+    void *intVoidPointerTest = get_list_element(intListTest, 3);
     int intTest = voidToint(intVoidPointerTest);
     printf("%d\n", intTest);
 

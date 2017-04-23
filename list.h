@@ -24,5 +24,7 @@ struct List *plus_list(struct List *list, ...);
 
 void *get_list_element(struct List *list, int index);
 
+int get_list_size(struct List *list);
+
 
 #endif //TUSIMPLELIB_LIST_H
