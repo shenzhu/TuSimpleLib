@@ -106,10 +106,32 @@ void *pop_list_element(struct List *list) {
         exit(1);
     }
 
-    void* value = *(list->value + list->currPos - 1);
+    void *value = *(list->value + list->currPos - 1);
     list->currPos--;
 
     return value;
+}
+
+
+void *remove_list_element(struct List *list, int index) {
+    if (list == NULL) {
+        printf("Error! remove_list_element() : List does not exist.\n");
+        exit(1);
+    } else if (list->size <= index || list->size == 0) {
+        printf("Error! remove_list_element() : Index out of range.\n");
+        exit(1);
+    }
+
+    void *elementToRemove = *(list->value + index);
+
+    for (int i = index; i < list->currPos; i++) {
+        *(list->value + i) = *(list->value + i + 1);
+    }
+
+    // decrease size
+    list->currPos--;
+
+    return elementToRemove;
 }
 
 
@@ -144,15 +166,31 @@ int main() {
 //    int intTest = voidToint(intVoidPointerTest);
 //    printf("%d\n", intTest);
 
-    // Test function: pop_list_element
+
+//    // Test function: pop_list_element
+//    struct List *intListTest;
+//    intListTest = create_list(INT);
+//    intListTest = plus_list(intListTest, 10);
+//    intListTest = plus_list(intListTest, 20);
+//    intListTest = plus_list(intListTest, 30);
+//    printf("%d\n", voidToint(pop_list_element(intListTest)));
+//    printf("%d\n", voidToint(pop_list_element(intListTest)));
+//    printf("%d\n", voidToint(pop_list_element(intListTest)));
+
+
+    // Test function: remove_list_element
     struct List *intListTest;
     intListTest = create_list(INT);
     intListTest = plus_list(intListTest, 10);
     intListTest = plus_list(intListTest, 20);
     intListTest = plus_list(intListTest, 30);
-    printf("%d\n", voidToint(pop_list_element(intListTest)));
-    printf("%d\n", voidToint(pop_list_element(intListTest)));
-    printf("%d\n", voidToint(pop_list_element(intListTest)));
+    printf("%d\n", get_list_size(intListTest));
+    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+    printf("%d\n", get_list_size(intListTest));
+    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+    printf("%d\n", get_list_size(intListTest));
+    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+    printf("%d\n", get_list_size(intListTest));
 
     return 0;
 }

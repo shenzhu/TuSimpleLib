@@ -24,7 +24,7 @@ struct List *plus_list(struct List *list, ...);
 
 void *get_list_element(struct List *list, int index);
 
-void* pop_list_element(struct List *list);
+void *pop_list_element(struct List *list);
 
 void *remove_list_element(struct List *list, int index);
 
