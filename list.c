@@ -32,6 +32,7 @@ struct List* plus_list_helper(struct List* list, void* value) {
     return list;
 }
 
+
 struct List *plus_list(struct List *list, ...) {
     if (list == NULL) {
         printf("Error! plus_list() : List does not exist. \n");
@@ -45,22 +46,24 @@ struct List *plus_list(struct List *list, ...) {
     void* data;
     switch (list->type) {
         case INT:
+            printf("INT\n");
             data = intTovoid(va_arg(arg_ptr, int));
             break;
 
         case FLOAT:
+            printf("FLOAT\n");
             data = floatTovoid(va_arg(arg_ptr, double));
             break;
 
         case BOOL:
+            printf("BOOL\n");
             data = boolTovoid(va_arg(arg_ptr, bool));
             break;
 
         default:
             break;
     }
-    printf("EXECUTED\n");
-    printf("%d\n", va_arg(arg_ptr, int));
+
     va_end(arg_ptr);
 
     return list;
@@ -68,11 +71,16 @@ struct List *plus_list(struct List *list, ...) {
 
 int main() {
     // Test function: create_list
-    struct List *newList = create_list(1);
-    printf("%d\n", newList->size);
+    struct List *int_list = create_list(0);
+    printf("%d\n", int_list->type);
+
+    struct List *double_list = create_list(1);
+    printf("%d\n", double_list->type);
 
     // Test function: plus_list
-    struct List *test_list = plus_list(newList, 5);
+    struct List *int_list_test = plus_list(int_list, 10);
+    struct List *double_list_test = plus_list(double_list, 10.123);
+
 
     return 0;
 }

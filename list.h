@@ -7,7 +7,6 @@
 #define TUSIMPLELIB_LIST_H
 
 
-// One element of list
 struct List {
     int32_t size;
     int32_t type;
