@@ -97,6 +97,9 @@
 		<Unit filename="/Users/shenzhu/Documents/GitHub/TuSimpleLib/main.c">
 			<Option target="TuSimpleLib"/>
 		</Unit>
+		<Unit filename="/Users/shenzhu/Documents/GitHub/TuSimpleLib/set.h">
+			<Option target="TuSimpleLib"/>
+		</Unit>
 		<Unit filename="/Users/shenzhu/Documents/GitHub/TuSimpleLib/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

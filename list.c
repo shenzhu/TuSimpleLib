@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <string.h>
 #include "list.h"
 #include "cast.c"
 
 #define INT 0
 #define FLOAT 1
 #define BOOL 2
+#define STRING 3
 
 
 struct List *create_list(int32_t type) {
@@ -58,6 +60,10 @@ struct List *plus_list(struct List *list, ...) {
 
         case BOOL:
             data = boolTovoid(va_arg(arg_ptr, bool));
+            break;
+
+        case STRING:
+            data = stringTovoid(va_arg(arg_ptr, char*));
             break;
 
         default:
@@ -143,9 +149,19 @@ int main() {
 //    struct List *doubleList = create_list(1);
 //    printf("%d\n", doubleList->type);
 //
-//    // Test function: plus_list
-//    struct List *intListTest = plus_list(intList, 10);
-//    struct List *doubleListTest = plus_list(doubleList, 10.123);
+    // Test function: plus_list
+    struct List* intListTest = create_list(INT);
+    struct List* doubleListTest = create_list(FLOAT);
+    struct List* stringListTest = create_list(STRING);
+    intListTest = plus_list(intListTest, 10);
+    doubleListTest = plus_list(doubleListTest, 10.123);
+    char str1[12] = "Hello";
+    char str2[12] = "World";
+    stringListTest = plus_list(stringListTest, str1);
+    stringListTest = plus_list(stringListTest, str2);
+    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
+    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
+
 
 
 //    // Test function: get_list_element, get_list_size
@@ -178,19 +194,19 @@ int main() {
 //    printf("%d\n", voidToint(pop_list_element(intListTest)));
 
 
-    // Test function: remove_list_element
-    struct List *intListTest;
-    intListTest = create_list(INT);
-    intListTest = plus_list(intListTest, 10);
-    intListTest = plus_list(intListTest, 20);
-    intListTest = plus_list(intListTest, 30);
-    printf("%d\n", get_list_size(intListTest));
-    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
-    printf("%d\n", get_list_size(intListTest));
-    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
-    printf("%d\n", get_list_size(intListTest));
-    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
-    printf("%d\n", get_list_size(intListTest));
+//    // Test function: remove_list_element
+//    struct List *intListTest;
+//    intListTest = create_list(INT);
+//    intListTest = plus_list(intListTest, 10);
+//    intListTest = plus_list(intListTest, 20);
+//    intListTest = plus_list(intListTest, 30);
+//    printf("%d\n", get_list_size(intListTest));
+//    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+//    printf("%d\n", get_list_size(intListTest));
+//    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+//    printf("%d\n", get_list_size(intListTest));
+//    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
+//    printf("%d\n", get_list_size(intListTest));
 
     return 0;
 }

@@ -17,6 +17,11 @@ bool voidTobool(void* pointer) {
     return *((bool*) pointer);
 }
 
+char* voidTostring(void* pointer) {
+    return (char*) pointer;
+}
+
+
 void* intTovoid(int32_t value) {
     int* value_pointer = (int*)malloc(sizeof(int32_t));
     *value_pointer = value;
@@ -33,4 +38,8 @@ void* boolTovoid(bool value) {
     bool* value_pointer = (bool*)malloc(sizeof(bool));
     *value_pointer = value;
     return (void*)value_pointer;
+}
+
+void* stringTovoid(char* value) {
+    return (void*) value;
 }
