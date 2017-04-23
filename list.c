@@ -96,6 +96,23 @@ int get_list_size(struct List *list) {
     return list->currPos;
 }
 
+
+void *pop_list_element(struct List *list) {
+    if (list == NULL) {
+        printf("Error! pop_list_element() : List does not exist.\n");
+        exit(1);
+    } else if (list->currPos < 1) {
+        printf("Error! pop_list_element() : No element to pop.\n");
+        exit(1);
+    }
+
+    void* value = *(list->value + list->currPos - 1);
+    list->currPos--;
+
+    return value;
+}
+
+
 int main() {
 //    // Test function: create_list
 //    struct List *intList = create_list(0);
@@ -109,23 +126,33 @@ int main() {
 //    struct List *doubleListTest = plus_list(doubleList, 10.123);
 
 
-    // Test function: get_list_element, get_list_size
+//    // Test function: get_list_element, get_list_size
+//    struct List *intListTest;
+//    intListTest = create_list(INT);
+//    intListTest = plus_list(intListTest, 10);
+//    printf("%d\n", get_list_size(intListTest));
+//
+//    intListTest = plus_list(intListTest, 20);
+//    printf("%d\n", get_list_size(intListTest));
+//
+//    intListTest = plus_list(intListTest, 30);
+//    printf("%d\n", get_list_size(intListTest));
+//
+//    printf("%d\n", intListTest->type);
+//    printf("%d\n", intListTest->size);
+//    void *intVoidPointerTest = get_list_element(intListTest, 3);
+//    int intTest = voidToint(intVoidPointerTest);
+//    printf("%d\n", intTest);
+
+    // Test function: pop_list_element
     struct List *intListTest;
     intListTest = create_list(INT);
     intListTest = plus_list(intListTest, 10);
-    printf("%d\n", get_list_size(intListTest));
-
     intListTest = plus_list(intListTest, 20);
-    printf("%d\n", get_list_size(intListTest));
-
     intListTest = plus_list(intListTest, 30);
-    printf("%d\n", get_list_size(intListTest));
-
-    printf("%d\n", intListTest->type);
-    printf("%d\n", intListTest->size);
-    void *intVoidPointerTest = get_list_element(intListTest, 3);
-    int intTest = voidToint(intVoidPointerTest);
-    printf("%d\n", intTest);
+    printf("%d\n", voidToint(pop_list_element(intListTest)));
+    printf("%d\n", voidToint(pop_list_element(intListTest)));
+    printf("%d\n", voidToint(pop_list_element(intListTest)));
 
     return 0;
 }
