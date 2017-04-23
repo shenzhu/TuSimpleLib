@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdarg.h>
 
 #ifndef TUSIMPLELIB_LIST_H
 #define TUSIMPLELIB_LIST_H
@@ -10,7 +11,7 @@
 struct List {
     int32_t size;
     int32_t type;
-    void *value;
+    void **value;
     int32_t currPos;
 };
 
@@ -18,7 +19,9 @@ struct List {
 // Functions for list
 struct List *create_list(int32_t type);
 
-void *plus_list(struct List *list, void *value);
+struct List *plus_list_helper(struct List *list, void *data);
+
+struct List *plus_list(struct List *list, ...);
 
 void *next_list(struct List *list);
 

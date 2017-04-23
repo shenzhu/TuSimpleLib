@@ -1,4 +1,4 @@
-# Install script for directory: /Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib
+# Install script for directory: /Users/shenzhu/Documents/GitHub/TuSimpleLib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/shenzhu/Documents/GitHub/TuSimpleLib/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

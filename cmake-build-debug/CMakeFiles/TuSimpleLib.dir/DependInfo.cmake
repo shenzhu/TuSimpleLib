@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cast.c" "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/cast.c.o"
-  "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/list.c" "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/list.c.o"
-  "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/main.c" "/Users/shenzhu/Desktop/Programming Language and Translators/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/main.c.o"
+  "/Users/shenzhu/Documents/GitHub/TuSimpleLib/cast.c" "/Users/shenzhu/Documents/GitHub/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/cast.c.o"
+  "/Users/shenzhu/Documents/GitHub/TuSimpleLib/list.c" "/Users/shenzhu/Documents/GitHub/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/list.c.o"
+  "/Users/shenzhu/Documents/GitHub/TuSimpleLib/main.c" "/Users/shenzhu/Documents/GitHub/TuSimpleLib/cmake-build-debug/CMakeFiles/TuSimpleLib.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 
