@@ -7,14 +7,14 @@
 #include "list.h"
 
 
+#ifndef TUSIMPLELIB_HASHMAP_H
+#define TUSIMPLELIB_HASHMAP_H
+
+
 #define MAP_MISSING -3  /* No such element */
 #define MAP_FULL -2    /* Hashmap is full */
 #define MAP_OMEM -1    /* Out of Memory */
 #define MAP_OK 0    /* OK */
-
-
-#ifndef TUSIMPLELIB_HASHMAP_H
-#define TUSIMPLELIB_HASHMAP_H
 
 
 // Define data structure
@@ -31,6 +31,9 @@ struct hashmap {
     int32_t valueType;
     struct hashmap_element *data;
 };
+
+
+typedef int (*Func)(void *, void *, void *);
 
 
 // Define functions
@@ -51,5 +54,7 @@ void *hashmap_get(struct hashmap *map, ...);
 struct hashmap *hashmap_remove(struct hashmap *map, ...);
 
 struct List *hashmap_keys(struct hashmap *map);
+
+int hashmap_iterate(struct hashmap *map, Func f);
 
 #endif //TUSIMPLELIB_HASHMAP_H

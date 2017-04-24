@@ -394,9 +394,29 @@ struct List *hashmap_keys(struct hashmap *map) {
     return keys;
 }
 
+int hashmap_iterate(struct hashmap *map, Func f) {
+    if (map == NULL) {
+        printf("Error! hashmap_iterate() : Map does not exist.\n");
+        exit(1);
+    } else if (hashmap_length(map) <= 0) {
+        return MAP_MISSING;
+    }
+
+    for(int i = 0; i < map->tableSize; i++) {
+        if (map->data[i].used != 0) {
+            int status = f(map->data[i].key, map->data[i].data[0], map->data[i].data[1]);
+            if (status != MAP_OK) {
+                return status;
+            }
+        }
+    }
+
+    return MAP_OK;
+}
+
 int hashmap_length(struct hashmap *map) {
     if (map == NULL) {
-        printf("Error! hashmap_length() : map does not exist.\n");
+        printf("Error! hashmap_length() : Map does not exist.\n");
         exit(1);
     }
     return map->size;
@@ -416,6 +436,18 @@ int32_t hashmap_valuetype(struct hashmap *map) {
         exit(1);
     }
     return map->valueType;
+}
+
+
+int test_hashmap_iterate_func(void* key, void* keyData, void* keyValue) {
+    printf("%s ", "MAPKEY:");
+    printf("%s\n", voidTostring(key));
+    printf("%s ", "KEY DATA:");
+    printf("%d\n", voidToint(keyData));
+    printf("%s ", "VALUE DATA");
+    printf("%d\n", voidToint(keyValue));
+
+    return MAP_OK;
 }
 
 
@@ -440,10 +472,10 @@ int main() {
     // Test function: hashmap_put
     printf("%s\n", "TEST: hashmap_put");
     struct hashmap *intToInt3 = create_hashmap(INT, INT);
-    intToInt3 = hashmap_put(intToInt3, 10, 100);
+    intToInt3 = hashmap_put(intToInt3, 10, 99);
     printf("%d\n", intToInt3->size);
 
-    intToInt3 = hashmap_put(intToInt3, 11, 100);
+    intToInt3 = hashmap_put(intToInt3, 11, 88);
     printf("%d\n", intToInt3->size);
 
     struct hashmap *stringToInt1 = create_hashmap(STRING, INT);
@@ -494,17 +526,28 @@ int main() {
 
     intToInt3 = hashmap_remove(intToInt3, 10);
     assert(hashmap_length(intToInt3) == 1);
-    intToInt3 = hashmap_put(intToInt3, 10, 100);
+    intToInt3 = hashmap_put(intToInt3, 20, 100);
     assert(hashmap_length(intToInt3) == 2);
 
 
     // Test function: hashmap_keys
-    struct List* stringKeysList = hashmap_keys(stringToInt1);
+    struct List *stringKeysList = hashmap_keys(stringToInt1);
     for (int i = 0; i < get_list_size(stringKeysList); i++) {
         printf("%s\n", voidTostring(get_list_element(stringKeysList, i)));
     }
-    struct List* intKeysList = hashmap_keys(intToInt3);
+    struct List *intKeysList = hashmap_keys(intToInt3);
     for (int i = 0; i < get_list_size(intKeysList); i++) {
         printf("%d\n", voidToint(get_list_element(intKeysList, i)));
     }
+
+
+    // Test function: hashmap_iterate
+    struct hashmap* intToInt4 = create_hashmap(INT, INT);
+    intToInt4 = hashmap_put(intToInt4, 1, 10);
+    intToInt4 = hashmap_put(intToInt4, 2, 20);
+    intToInt4 = hashmap_put(intToInt4, 3, 30);
+    intToInt4 = hashmap_put(intToInt4, 4, 40);
+    intToInt4 = hashmap_put(intToInt4, 5, 50);
+    printf("%s\n", "TEST: hashmap_iterate");
+    int status = hashmap_iterate(intToInt4, test_hashmap_iterate_func);
 }
