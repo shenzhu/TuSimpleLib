@@ -244,6 +244,80 @@ struct hashmap *hashmap_put(struct hashmap *map, ...) {
     return map;
 }
 
+bool hashmap_haskey(struct hashmap* map, ...) {
+    char* key;
+
+    va_list args_ptr;
+    va_start(args_ptr, map);
+
+    switch (map->keyType) {
+        case INT:
+            key = malloc(16);
+            snprintf(key, 16, "%d", va_arg(args_ptr, int));
+            break;
+
+        case STRING:
+            key = va_arg(args_ptr, char*);
+            break;
+
+        default:
+            break;
+    }
+
+    va_end(args_ptr);
+
+    int index = hashmap_hash_int(map, key);
+    for (int i = 0; i < MAX_CHAIN_LENGTH; i++) {
+        int usedFlag = map->data[index].used;
+        if (usedFlag == 1) {
+            if (strcmp(map->data[index].key, key) == 0) {
+                return 1;
+            }
+        }
+        index = (index + 1) % map->tableSize;
+    }
+
+    return 0;
+}
+
+void* hashmap_get(struct hashmap* map, ...) {
+    char* key;
+
+    va_list args_ptr;
+    va_start(args_ptr, map);
+
+    switch (map->keyType) {
+        case INT:
+            key = malloc(16);
+            snprintf(key, 16, "%d", va_arg(args_ptr, int));
+            break;
+
+        case STRING:
+            key = va_arg(args_ptr, char*);
+            break;
+
+        default:
+            break;
+    }
+
+    va_end(args_ptr);
+
+    int index = hashmap_hash_int(map, key);
+    for(int i = 0; i < MAX_CHAIN_LENGTH; i++) {
+        int useFlag = map->data[index].used;
+        if (useFlag == 1) {
+            if (strcmp(map->data[index].key, key) == 0) {
+                return map->data[index].data[1];
+            }
+        }
+
+        index = (index + 1) % map->tableSize;
+    }
+
+    printf("Error! hashmap_get() : Key does not exist.\n");
+    exit(1);
+}
+
 int hashmap_length(struct hashmap *map) {
     if (map == NULL) {
         printf("Error! hashmap_length() : map does not exist.\n");
@@ -309,5 +383,25 @@ int main() {
     printf("%d\n", hashmap_length(stringToInt1));
     printf("%d\n", hashmap_keytype(stringToInt1));
     printf("%d\n", hashmap_valuetype(stringToInt1));
+
+
+    // Test function: hashmap_hashkey
+    printf("%s\n", "TEST: hashmap_haskey");
+    printf("%d\n", hashmap_haskey(stringToInt1, "hello"));
+    printf("%d\n", hashmap_haskey(stringToInt1, "world"));
+    printf("%d\n", hashmap_haskey(stringToInt1, "columbia"));
+    printf("%d\n", hashmap_haskey(intToInt3, 10));
+    printf("%d\n", hashmap_haskey(intToInt3, 11));
+    printf("%d\n", hashmap_haskey(intToInt3, 12));
+
+
+    // Test function: hashmap_get
+    printf("%s\n", "TEST: hashmap_get");
+    printf("%d\n", voidToint(hashmap_get(stringToInt1, "hello")));
+    printf("%d\n", voidToint(hashmap_get(stringToInt1, "world")));
+    //printf("%d\n", voidToint(hashmap_get(stringToInt1, "columbia")));
+    printf("%d\n", voidToint(hashmap_get(intToInt3, 10)));
+    printf("%d\n", voidToint(hashmap_get(intToInt3, 11)));
+    //printf("%d\n", voidToint(hashmap_get(intToInt3, 12)));
 }
 
