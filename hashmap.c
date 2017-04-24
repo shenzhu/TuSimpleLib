@@ -9,7 +9,7 @@
 
 
 #define INITIAL_SIZE 256
-
+#define MAX_CHAIN_LENGTH 8
 
 
 // Functions that calculate the hash
@@ -105,64 +105,50 @@ unsigned int hashmap_hash_int(struct hashmap *map, char *keystring) {
     return key % map->tableSize;
 }
 
-/*
- * Return the integer of the location in data
- * to store the point to the item, or MAP_FULL.
- */
-int hashmap_hash(struct hashmap *m, char *key) {
+int hashmap_hash(struct hashmap* map, char* key) {
     int curr;
-    int i;
 
-    /* If full, return immediately */
-    if (m->size >= (m->table_size / 2)) return MAP_FULL;
+    // Test if map is full
+    if (map->size >= map->tableSize / 2) return MAP_FULL;
 
-    /* Find the best index */
-    curr = hashmap_hash_int(m, key);
-
-    /* Linear probing */
-    for (i = 0; i < MAX_CHAIN_LENGTH; i++) {
-        if (m->data[curr].in_use == 0)
+    curr = hashmap_hash_int(map, key);
+    for (int i = 0; i < MAX_CHAIN_LENGTH; i++) {
+        if (map->data[curr].used == 0) {
             return curr;
+        }
 
-        if (m->data[curr].in_use == 1 && (strcmp(m->data[curr].key, key) == 0))
+        if (map->data[curr].used == 1 && strcmp(map->data[curr].key, key) == 0) {
             return curr;
+        }
 
-        curr = (curr + 1) % m->table_size;
+        curr = (curr + 1) % map->tableSize;
     }
 
     return MAP_FULL;
 }
 
-/*
- * Doubles the size of the hashmap, and rehashes all the elements
- */
-int hashmap_rehash(struct hashmap *m) {
-    int i;
-    int old_size;
-    struct hashmap_element *curr;
+int hashmap_rehash(struct hashmap* map) {
+    struct hashmap_element* curr;
 
-    /* Setup the new elements */
-    struct hashmap_element *temp = (struct hashmap_element *)
-            calloc(2 * m->tableSize, sizeof(struct hashmap_element));
+    // Apply for new space, twice as large as before
+    struct hashmap_element* temp = (struct hashmap_element*) calloc(2 * map->tableSize, sizeof(struct hashmap_element));
     if (!temp) return MAP_OMEM;
 
-    /* Update the array */
-    curr = m->data;
-    m->data = temp;
+    // Update data pointers
+    curr = map->data;
+    map->data = temp;
 
-    /* Update the size */
-    old_size = m->table_size;
-    m->tableSize = 2 * m->tableSize;
-    m->size = 0;
+    // Update size
+    int oldSize = map->tableSize;
+    map->tableSize = 2 * map->tableSize;
+    map->size = 0;
 
-    /* Rehash the elements */
-    for (i = 0; i < old_size; i++) {
-        int status;
+    // Rehash
+    for (int i = 0; i < oldSize; i++) {
+        // Only hash those used position
+        if (curr[i].used == 0) continue;
 
-        if (curr[i].in_use == 0)
-            continue;
-
-        hashmap_put(m, curr[i].key, curr[i].data);
+        hashmap_put(map, curr[i].key, curr[i].data);
     }
 
     free(curr);
@@ -186,28 +172,106 @@ struct hashmap *create_hashmap(int32_t keyType, int32_t valueType) {
     return newMap;
 }
 
-struct hashmap *hashmap_put(struct hashmap *map, ...) {
-    void* data1;
-    void* data2;
+struct hashmap* hashmap_put(struct hashmap* map, ...) {
+    // Variables to store var_args
+    void* keyData;
+    void* valueData;
     char* key;
 
     va_list arg_ptr;
     va_start(arg_ptr, map);
 
+    // Extract and format key
     switch (map->keyType) {
         case INT:
-            data1 = intTovoid(va_arg(arg_ptr, int));
+            keyData = intTovoid(va_arg(arg_ptr, int));
             key = malloc(16);
+            snprintf(key, 16, "%d", voidToint(keyData));
+            break;
+
+        case STRING:
+            keyData = stringTovoid(va_arg(arg_ptr, char*));
+            key = voidTostring(keyData);
+            break;
+
+        default:
+            break;
     }
+
+    // Extract and format value
+    switch (map->valueType) {
+        case INT:
+            valueData = intTovoid(va_arg(arg_ptr, int));
+            break;
+
+        case FLOAT:
+            valueData = floatTovoid(va_arg(arg_ptr, double));
+            break;
+
+        case BOOL:
+            valueData = boolTovoid(va_arg(arg_ptr, bool));
+            break;
+
+        case STRING:
+            valueData = stringTovoid(va_arg(arg_ptr, char*));
+            break;
+
+        default:
+            break;
+    }
+
+    va_end(arg_ptr);
+
+    // Find where to put
+    int index = hashmap_hash(map, key);
+    while (index == MAP_FULL) {
+        if (hashmap_rehash(map) == MAP_OMEM) {
+            printf("Error! hashmap_put() : Out of Memory.\n");
+            exit(1);
+        }
+        index = hashmap_hash(map, key);
+    }
+
+    // Put
+    map->data[index].data[0] = keyData;
+    map->data[index].data[1] = valueData;
+    map->data[index].key = key;
+    map->data[index].used = 1;
+    map->size++;
+
+    return map;
 }
 
+
 int main() {
-    // Test function: create_hashmap
-    struct hashmap *intToInt = create_hashmap(INT, INT);
-    struct hashmap *intToString = create_hashmap(INT, STRING);
-    printf("%d\n", intToInt->keyType);
-    printf("%d\n", intToInt->valueType);
-    printf("%d\n", intToString->keyType);
-    printf("%d\n", intToString->valueType);
+//    // Test function: create_hashmap
+//    struct hashmap *intToInt = create_hashmap(INT, INT);
+//    struct hashmap *intToString = create_hashmap(INT, STRING);
+//    printf("%d\n", intToInt->keyType);
+//    printf("%d\n", intToInt->valueType);
+//    printf("%d\n", intToString->keyType);
+//    printf("%d\n", intToString->valueType);
+//
+//
+//    // Test function: hashmap_hash_int
+//    struct hashmap *intToIntTwo = create_hashmap(INT, INT);
+//    printf("%d\n", hashmap_hash_int(intToIntTwo, "Hello"));
+//    printf("%d\n", hashmap_hash_int(intToIntTwo, "World"));
+
+
+    // Test function: hashmap_put
+    struct hashmap *intToInt3 = create_hashmap(INT, INT);
+    intToInt3 = hashmap_put(intToInt3, 10, 100);
+    printf("%d\n", intToInt3->size);
+
+    intToInt3 = hashmap_put(intToInt3, 11, 100);
+    printf("%d\n", intToInt3->size);
+
+    struct hashmap *stringToInt1 = create_hashmap(STRING, INT);
+    printf("%d\n", stringToInt1->size);
+    stringToInt1 = hashmap_put(stringToInt1, "hello", 10);
+    printf("%d\n", stringToInt1->size);
+    stringToInt1 = hashmap_put(stringToInt1, "world", 11);
+    printf("%d\n", stringToInt1->size);
 }
 
