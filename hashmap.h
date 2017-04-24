@@ -37,4 +37,10 @@ struct hashmap *create_hashmap(int32_t keyType, int32_t valueType);
 
 struct hashmap *hashmap_put(struct hashmap *map, ...);
 
+int hashmap_length(struct hashmap *map);
+
+int32_t hashmap_keytype(struct hashmap *map);
+
+int32_t hashmap_valuetype(struct hashmap *map);
+
 #endif //TUSIMPLELIB_HASHMAP_H

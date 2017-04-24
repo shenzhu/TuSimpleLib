@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <printf.h>
 #include "cast.c"
 #include "hashmap.h"
 
@@ -105,7 +106,7 @@ unsigned int hashmap_hash_int(struct hashmap *map, char *keystring) {
     return key % map->tableSize;
 }
 
-int hashmap_hash(struct hashmap* map, char* key) {
+int hashmap_hash(struct hashmap *map, char *key) {
     int curr;
 
     // Test if map is full
@@ -127,11 +128,12 @@ int hashmap_hash(struct hashmap* map, char* key) {
     return MAP_FULL;
 }
 
-int hashmap_rehash(struct hashmap* map) {
-    struct hashmap_element* curr;
+int hashmap_rehash(struct hashmap *map) {
+    struct hashmap_element *curr;
 
     // Apply for new space, twice as large as before
-    struct hashmap_element* temp = (struct hashmap_element*) calloc(2 * map->tableSize, sizeof(struct hashmap_element));
+    struct hashmap_element *temp = (struct hashmap_element *) calloc(2 * map->tableSize,
+                                                                     sizeof(struct hashmap_element));
     if (!temp) return MAP_OMEM;
 
     // Update data pointers
@@ -172,11 +174,11 @@ struct hashmap *create_hashmap(int32_t keyType, int32_t valueType) {
     return newMap;
 }
 
-struct hashmap* hashmap_put(struct hashmap* map, ...) {
+struct hashmap *hashmap_put(struct hashmap *map, ...) {
     // Variables to store var_args
-    void* keyData;
-    void* valueData;
-    char* key;
+    void *keyData;
+    void *valueData;
+    char *key;
 
     va_list arg_ptr;
     va_start(arg_ptr, map);
@@ -242,24 +244,51 @@ struct hashmap* hashmap_put(struct hashmap* map, ...) {
     return map;
 }
 
+int hashmap_length(struct hashmap *map) {
+    if (map == NULL) {
+        printf("Error! hashmap_length() : map does not exist.\n");
+        exit(1);
+    }
+    return map->size;
+}
+
+int32_t hashmap_keytype(struct hashmap *map) {
+    if (map == NULL) {
+        printf("Error! hashmap_length() : map does not exist.\n");
+        exit(1);
+    }
+    return map->keyType;
+}
+
+int32_t hashmap_valuetype(struct hashmap *map) {
+    if (map == NULL) {
+        printf("Error! hashmap_length() : map does not exist.\n");
+        exit(1);
+    }
+    return map->valueType;
+}
+
 
 int main() {
-//    // Test function: create_hashmap
-//    struct hashmap *intToInt = create_hashmap(INT, INT);
-//    struct hashmap *intToString = create_hashmap(INT, STRING);
-//    printf("%d\n", intToInt->keyType);
-//    printf("%d\n", intToInt->valueType);
-//    printf("%d\n", intToString->keyType);
-//    printf("%d\n", intToString->valueType);
-//
-//
-//    // Test function: hashmap_hash_int
-//    struct hashmap *intToIntTwo = create_hashmap(INT, INT);
-//    printf("%d\n", hashmap_hash_int(intToIntTwo, "Hello"));
-//    printf("%d\n", hashmap_hash_int(intToIntTwo, "World"));
+    // Test function: create_hashmap
+    printf("%s\n", "TEST: create_hashmap");
+    struct hashmap *intToInt = create_hashmap(INT, INT);
+    struct hashmap *intToString = create_hashmap(INT, STRING);
+    printf("%d\n", intToInt->keyType);
+    printf("%d\n", intToInt->valueType);
+    printf("%d\n", intToString->keyType);
+    printf("%d\n", intToString->valueType);
+
+
+    // Test function: hashmap_hash_int
+    printf("%s\n", "TEST: hashmap_hash_int");
+    struct hashmap *intToIntTwo = create_hashmap(INT, INT);
+    printf("%d\n", hashmap_hash_int(intToIntTwo, "Hello"));
+    printf("%d\n", hashmap_hash_int(intToIntTwo, "World"));
 
 
     // Test function: hashmap_put
+    printf("%s\n", "TEST: hashmap_put");
     struct hashmap *intToInt3 = create_hashmap(INT, INT);
     intToInt3 = hashmap_put(intToInt3, 10, 100);
     printf("%d\n", intToInt3->size);
@@ -273,5 +302,12 @@ int main() {
     printf("%d\n", stringToInt1->size);
     stringToInt1 = hashmap_put(stringToInt1, "world", 11);
     printf("%d\n", stringToInt1->size);
+
+
+    // Test function: hashmap_length, hashmap_keytype, hashmap_valuetype
+    printf("%s\n", "TEST: hashmap_length, hashmap_keytype, hashmap_valuetype");
+    printf("%d\n", hashmap_length(stringToInt1));
+    printf("%d\n", hashmap_keytype(stringToInt1));
+    printf("%d\n", hashmap_valuetype(stringToInt1));
 }
 
