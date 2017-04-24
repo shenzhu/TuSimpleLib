@@ -439,7 +439,7 @@ int32_t hashmap_valuetype(struct hashmap *map) {
 }
 
 
-int test_hashmap_iterate_func(void* key, void* keyData, void* keyValue) {
+int test_inttoint_hashmap_iterate_func(void* key, void* keyData, void* keyValue) {
     printf("%s ", "MAPKEY:");
     printf("%s\n", voidTostring(key));
     printf("%s ", "KEY DATA:");
@@ -549,5 +549,5 @@ int main() {
     intToInt4 = hashmap_put(intToInt4, 4, 40);
     intToInt4 = hashmap_put(intToInt4, 5, 50);
     printf("%s\n", "TEST: hashmap_iterate");
-    int status = hashmap_iterate(intToInt4, test_hashmap_iterate_func);
+    int status = hashmap_iterate(intToInt4, test_inttoint_hashmap_iterate_func);
 }
