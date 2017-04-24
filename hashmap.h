@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include "list.h"
 
 
 #define MAP_MISSING -3  /* No such element */
@@ -46,5 +47,9 @@ int32_t hashmap_valuetype(struct hashmap *map);
 bool hashmap_haskey(struct hashmap *map, ...);
 
 void *hashmap_get(struct hashmap *map, ...);
+
+struct hashmap *hashmap_remove(struct hashmap *map, ...);
+
+struct List *hashmap_keys(struct hashmap *map);
 
 #endif //TUSIMPLELIB_HASHMAP_H

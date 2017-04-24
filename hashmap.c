@@ -4,8 +4,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include <printf.h>
-#include "cast.c"
+#include <assert.h>
+#include "list.c"
 #include "hashmap.h"
 
 
@@ -244,8 +244,8 @@ struct hashmap *hashmap_put(struct hashmap *map, ...) {
     return map;
 }
 
-bool hashmap_haskey(struct hashmap* map, ...) {
-    char* key;
+bool hashmap_haskey(struct hashmap *map, ...) {
+    char *key;
 
     va_list args_ptr;
     va_start(args_ptr, map);
@@ -253,7 +253,8 @@ bool hashmap_haskey(struct hashmap* map, ...) {
     switch (map->keyType) {
         case INT:
             key = malloc(16);
-            snprintf(key, 16, "%d", va_arg(args_ptr, int));
+            snprintf(key, 16, "%d", va_arg(args_ptr,
+                    int));
             break;
 
         case STRING:
@@ -280,8 +281,8 @@ bool hashmap_haskey(struct hashmap* map, ...) {
     return 0;
 }
 
-void* hashmap_get(struct hashmap* map, ...) {
-    char* key;
+void *hashmap_get(struct hashmap *map, ...) {
+    char *key;
 
     va_list args_ptr;
     va_start(args_ptr, map);
@@ -289,7 +290,8 @@ void* hashmap_get(struct hashmap* map, ...) {
     switch (map->keyType) {
         case INT:
             key = malloc(16);
-            snprintf(key, 16, "%d", va_arg(args_ptr, int));
+            snprintf(key, 16, "%d", va_arg(args_ptr,
+                    int));
             break;
 
         case STRING:
@@ -303,7 +305,7 @@ void* hashmap_get(struct hashmap* map, ...) {
     va_end(args_ptr);
 
     int index = hashmap_hash_int(map, key);
-    for(int i = 0; i < MAX_CHAIN_LENGTH; i++) {
+    for (int i = 0; i < MAX_CHAIN_LENGTH; i++) {
         int useFlag = map->data[index].used;
         if (useFlag == 1) {
             if (strcmp(map->data[index].key, key) == 0) {
@@ -316,6 +318,80 @@ void* hashmap_get(struct hashmap* map, ...) {
 
     printf("Error! hashmap_get() : Key does not exist.\n");
     exit(1);
+}
+
+struct hashmap *hashmap_remove(struct hashmap *map, ...) {
+    char *key;
+
+    va_list args_ptr;
+    va_start(args_ptr, map);
+
+    switch (map->keyType) {
+        case INT:
+            key = malloc(16);
+            snprintf(key, 16, "%d", va_arg(args_ptr,
+                    int));
+            break;
+
+        case STRING:
+            key = va_arg(args_ptr, char*);
+            break;
+
+        default:
+            break;
+    }
+
+    va_end(args_ptr);
+
+    int index = hashmap_hash_int(map, key);
+
+    for (int i = 0; i < MAX_CHAIN_LENGTH; i++) {
+        int useFlag = map->data[index].used;
+        if (useFlag == 1) {
+            if (strcmp(map->data[index].key, key) == 0) {
+                map->data[index].used = 0;
+                map->data[index].data[0] = NULL;
+                map->data[index].data[1] = NULL;
+                map->data[index].key = NULL;
+                map->size--;
+
+                return map;
+            }
+        }
+        index = (index + 1) % map->tableSize;
+    }
+    printf("Error! hashmap_remove() : No such key");
+    exit(1);
+}
+
+struct List *hashmap_keys(struct hashmap *map) {
+    if (map == NULL) {
+        printf("Error! hashmap_keys() : Map does not exist.\n");
+        exit(1);
+    } else if (hashmap_length(map) <= 0) {
+        printf("Error! hashmap_keys() : Map does not have key.\n");
+        exit(1);
+    }
+
+    struct List *keys = create_list(map->keyType);
+    for (int i = 0; i < map->tableSize; i++) {
+        if (map->data[i].used != 0) {
+            switch (map->keyType) {
+                case INT:
+                    plus_list(keys, voidToint(map->data[i].data[0]));
+                    break;
+
+                case STRING:
+                    plus_list(keys, voidTostring(map->data[i].data[0]));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    return keys;
 }
 
 int hashmap_length(struct hashmap *map) {
@@ -403,5 +479,32 @@ int main() {
     printf("%d\n", voidToint(hashmap_get(intToInt3, 10)));
     printf("%d\n", voidToint(hashmap_get(intToInt3, 11)));
     //printf("%d\n", voidToint(hashmap_get(intToInt3, 12)));
-}
 
+
+    // Test function: hashmap_remove
+    printf("%s\n", "TEST: hashmap_remove");
+    stringToInt1 = hashmap_remove(stringToInt1, "hello");
+    assert(hashmap_length(stringToInt1) == 1);
+    stringToInt1 = hashmap_remove(stringToInt1, "world");
+    assert(hashmap_length(stringToInt1) == 0);
+    stringToInt1 = hashmap_put(stringToInt1, "hello", 10);
+    assert(hashmap_length(stringToInt1) == 1);
+    stringToInt1 = hashmap_put(stringToInt1, "world", 100);
+    assert(hashmap_length(stringToInt1) == 2);
+
+    intToInt3 = hashmap_remove(intToInt3, 10);
+    assert(hashmap_length(intToInt3) == 1);
+    intToInt3 = hashmap_put(intToInt3, 10, 100);
+    assert(hashmap_length(intToInt3) == 2);
+
+
+    // Test function: hashmap_keys
+    struct List* stringKeysList = hashmap_keys(stringToInt1);
+    for (int i = 0; i < get_list_size(stringKeysList); i++) {
+        printf("%s\n", voidTostring(get_list_element(stringKeysList, i)));
+    }
+    struct List* intKeysList = hashmap_keys(intToInt3);
+    for (int i = 0; i < get_list_size(intKeysList); i++) {
+        printf("%d\n", voidToint(get_list_element(intKeysList, i)));
+    }
+}

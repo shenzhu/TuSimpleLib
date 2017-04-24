@@ -136,30 +136,30 @@ void *remove_list_element(struct List *list, int index) {
 }
 
 
-int main() {
+//int main() {
 //    // Test function: create_list
 //    struct List *intList = create_list(0);
 //    printf("%d\n", intList->type);
 //
 //    struct List *doubleList = create_list(1);
 //    printf("%d\n", doubleList->type);
-
-
-    // Test function: plus_list
-    struct List* intListTest = create_list(INT);
-    struct List* doubleListTest = create_list(FLOAT);
-    struct List* stringListTest = create_list(STRING);
-    intListTest = plus_list(intListTest, 10);
-    doubleListTest = plus_list(doubleListTest, 10.123);
-    char str1[12] = "Hello";
-    char str2[12] = "World";
-    stringListTest = plus_list(stringListTest, str1);
-    stringListTest = plus_list(stringListTest, str2);
-    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
-    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
-
-
-
+//
+//
+//    // Test function: plus_list
+//    struct List* intListTest = create_list(INT);
+//    struct List* doubleListTest = create_list(FLOAT);
+//    struct List* stringListTest = create_list(STRING);
+//    intListTest = plus_list(intListTest, 10);
+//    doubleListTest = plus_list(doubleListTest, 10.123);
+//    char str1[12] = "Hello";
+//    char str2[12] = "World";
+//    stringListTest = plus_list(stringListTest, str1);
+//    stringListTest = plus_list(stringListTest, str2);
+//    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
+//    printf("%s\n", voidTostring(pop_list_element(stringListTest)));
+//
+//
+//
 //    // Test function: get_list_element, get_list_size
 //    struct List *intListTest;
 //    intListTest = create_list(INT);
@@ -177,8 +177,8 @@ int main() {
 //    void *intVoidPointerTest = get_list_element(intListTest, 3);
 //    int intTest = voidToint(intVoidPointerTest);
 //    printf("%d\n", intTest);
-
-
+//
+//
 //    // Test function: pop_list_element
 //    struct List *intListTest;
 //    intListTest = create_list(INT);
@@ -188,8 +188,8 @@ int main() {
 //    printf("%d\n", voidToint(pop_list_element(intListTest)));
 //    printf("%d\n", voidToint(pop_list_element(intListTest)));
 //    printf("%d\n", voidToint(pop_list_element(intListTest)));
-
-
+//
+//
 //    // Test function: remove_list_element
 //    struct List *intListTest;
 //    intListTest = create_list(INT);
@@ -203,6 +203,6 @@ int main() {
 //    printf("%d\n", get_list_size(intListTest));
 //    printf("%d\n", voidToint(remove_list_element(intListTest, 0)));
 //    printf("%d\n", get_list_size(intListTest));
-
-    return 0;
-}
+//
+//    return 0;
+//}
