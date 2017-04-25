@@ -170,7 +170,11 @@ int main() {
 
     struct Set* stringSet2 = create_set(STRING);
     stringSet2 = put_set(stringSet2, "hello");
+    printf("%d\n", get_set_size(stringSet2));
+    assert(get_set_size(stringSet2) == 1);
     stringSet2 = put_set(stringSet2, "world");
+    printf("%d\n", get_set_size(stringSet2));
+    assert(get_set_size(stringSet2) == 2);
     printf("%d\n", check_set_element(stringSet2, "hello"));
     printf("%d\n", check_set_element(stringSet2, "world"));
     printf("%d\n", check_set_element(stringSet2, "columbia"));
