@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdarg.h>
+#include <math.h>
 #include "set.h"
 
 
@@ -53,6 +54,75 @@ bool check_set_element(struct Set *set, ...) {
     va_end(args_ptr);
 
     return exist;
+}
+
+/*
+ * Set does not have order, this function is a helper function for removing
+ * elements in set
+ */
+int32_t get_set_element_index(struct Set *set, ...) {
+    // Corner case
+    if (set == NULL) {
+        printf("%s\n", "Error! get_set_element_index : Set does not exist.\n");
+        exit(1);
+    }
+
+    int index = 0;
+
+    int intTemp;
+    double floatTemp;
+    bool boolTemp;
+    char* stringTemp;
+
+    va_list args_ptr;
+    va_start(args_ptr, set);
+
+    switch (set->type) {
+        case INT:
+            intTemp = va_arg(args_ptr, int);
+            while (index < (set->data->currPos)) {
+                if (intTemp == voidToint(*(set->data->value + index))) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+
+        case BOOL:
+            boolTemp = va_arg(args_ptr, bool);
+            while (index < (set->data->currPos)) {
+                if (boolTemp == voidTobool(*(set->data->value + index))) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+
+        case FLOAT:
+            floatTemp = va_arg(args_ptr, double);
+            while (index < (set->data->currPos)) {
+                if (fabs(floatTemp - voidTofloat(*(set->data->value + index))) < 0.00001) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+
+        case STRING:
+            stringTemp = va_arg(args_ptr, char*);
+            while (index < (set->data->currPos)) {
+                if (strcmp(stringTemp, voidTostring(*(set->data->value + index))) == 0) {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+
+        default:
+            break;
+    }
+
+    return -1;
 }
 
 struct Set *put_set(struct Set *set, ...) {
@@ -108,6 +178,82 @@ struct Set *put_set(struct Set *set, ...) {
             } else {
                 printf("Error! put_set : Element Already exist.\n");
                 exit(1);
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    va_end(args_ptr);
+
+    return set;
+}
+
+struct Set *remove_set_element(struct Set *set, ...) {
+    // Corner case
+    if (set == NULL) {
+        printf("%s\n", "Error! remove_element : Set does not exist.\n");
+        exit(1);
+    }
+
+    int intTemp;
+    bool boolTemp;
+    double floatTemp;
+    char *stringTemp;
+
+    int index;
+
+    va_list args_ptr;
+    va_start(args_ptr, set);
+
+    switch (set->type) {
+
+        case INT:
+            intTemp = va_arg(args_ptr, int);
+            index = get_set_element_index(set, intTemp);
+            if (index == -1) {
+                printf("Error! remove_set_element : Element does not exist.\n");
+                exit(1);
+            } else {
+                remove_list_element(set->data, index);
+                set->size--;
+            }
+            break;
+
+        case BOOL:
+            boolTemp = va_arg(args_ptr, bool);
+            index = get_set_element_index(set, boolTemp);
+            if (index == -1) {
+                printf("Error! remove_set_element : Element does not exist.\n");
+                exit(1);
+            } else {
+                remove_list_element(set->data, index);
+                set->size--;
+            }
+            break;
+
+        case FLOAT:
+            floatTemp = va_arg(args_ptr, double);
+            index = get_set_element_index(set, floatTemp);
+            if (index == -1) {
+                printf("Error! remove_set_element : Element does not exist.\n");
+                exit(1);
+            } else {
+                remove_list_element(set->data, index);
+                set->size--;
+            }
+            break;
+
+        case STRING:
+            stringTemp = va_arg(args_ptr, char*);
+            index = get_set_element_index(set, stringTemp);
+            if (index == -1) {
+                printf("Error! remove_set_element : Element does not exist.\n");
+                exit(1);
+            } else {
+                remove_list_element(set->data, index);
+                set->size--;
             }
             break;
 
@@ -212,14 +358,14 @@ int32_t get_set_size(struct Set *set) {
 }
 
 
-int test_int_set_iterate(void** data) {
+int test_int_set_iterate(void **data) {
     printf("%s", "SET ELEMENT: ");
     printf("%d\n", voidToint(*data));
 
     return SET_OK;
 }
 
-int test_int_set_iterate_2(void** data) {
+int test_int_set_iterate_2(void **data) {
     int value = voidToint(*data) + 1;
     *data = intTovoid(value);
     return SET_OK;
@@ -281,4 +427,22 @@ int main() {
     int status = set_iterate(intSet2, test_int_set_iterate);
     status = set_iterate(intSet2, test_int_set_iterate_2);
     status = set_iterate(intSet2, test_int_set_iterate);
+
+
+    // Test function: get_set_element_index
+    printf("%s\n", "TEST: get_set_element_index");
+    printf("%d\n", get_set_element_index(intSet2, 1));
+    printf("%d\n", get_set_element_index(intSet2, 2));
+    printf("%d\n", get_set_element_index(intSet2, 3));
+    printf("%d\n", get_set_element_index(intSet2, 4));
+
+
+    // Test function: remove_set_element
+    printf("%s\n", "TEST: remove_set_element");
+    intSet2 = remove_set_element(intSet2, 2);
+    printf("%d\n", get_set_size(intSet2));
+    printf("%d\n", intSet2->data->currPos);
+    intSet2 = remove_set_element(intSet2, 3);
+    printf("%d\n", get_set_size(intSet2));
+    printf("%d\n", intSet2->data->currPos);
 }

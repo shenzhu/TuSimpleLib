@@ -29,6 +29,10 @@ bool check_set_element(struct Set *set, ...);
 
 struct Set *put_set(struct Set *set, ...);
 
+int32_t get_set_element_index(struct Set *set, ...);
+
+struct Set *remove_set_element(struct Set *set, ...);
+
 struct List *get_set_elements(struct Set *set);
 
 int set_iterate(struct Set *set, Func f);
