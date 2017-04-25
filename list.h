@@ -24,6 +24,8 @@ struct List *plus_list_helper(struct List *list, void *data);
 
 struct List *plus_list(struct List *list, ...);
 
+struct List *concat_list(struct List *list1, struct List *list2);
+
 void *get_list_element(struct List *list, int index);
 
 void *pop_list_element(struct List *list);
