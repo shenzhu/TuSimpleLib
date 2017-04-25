@@ -120,6 +120,60 @@ struct Set *put_set(struct Set *set, ...) {
     return set;
 }
 
+struct List* get_set_elements(struct Set* set) {
+    // Corner case
+    if (set == NULL) {
+        printf("%s\n", "Error! get-set_elements : Set does not exist.\n");
+        exit(1);
+    }
+
+    struct List* list;
+    int i;
+
+    switch (set->type) {
+        case INT:
+            list = create_list(INT);
+            list->type = INT;
+            list->size = set->size;
+            for (i = 0; i < set->size; i++) {
+                list = plus_list(list, voidToint(get_list_element(set->data, i)));
+            }
+            return list;
+
+        case FLOAT:
+            list = create_list(FLOAT);
+            list->type = FLOAT;
+            list->size = set->size;
+            for (i = 0; i < set->size; i++) {
+                list = plus_list(list, voidTofloat(get_list_element(set->data, i)));
+            }
+            return list;
+
+        case BOOL:
+            list = create_list(BOOL);
+            list->type = BOOL;
+            list->size = set->size;
+            for (i = 0 ; i < set->size; i++) {
+                list = plus_list(list, voidTobool(get_list_element(set->data, i)));
+            }
+            return list;
+
+        case STRING:
+            list = create_list(STRING);
+            list->type = STRING;
+            list->size = set->size;
+            for (i = 0; i < set->size; i++) {
+                list = plus_list(list, voidTostring(get_list_element(set->data, i)));
+            }
+            return list;
+
+        default:
+            break;
+    }
+
+    return list;
+}
+
 int32_t get_set_type(struct Set *set) {
     if (set == NULL) {
         printf("%s\n", "Error! get_set_type : Set does not exist.\n");
@@ -140,6 +194,7 @@ int32_t get_set_size(struct Set *set) {
 
 
 int main() {
+
     // Test function: create_set, get_set_type
     printf("%s\n", "TEST: create_set");
     struct Set *intSet = create_set(INT);
@@ -178,4 +233,12 @@ int main() {
     printf("%d\n", check_set_element(stringSet2, "hello"));
     printf("%d\n", check_set_element(stringSet2, "world"));
     printf("%d\n", check_set_element(stringSet2, "columbia"));
+
+
+    // Test function: get_set_elements
+    printf("%s\n", "TEST: get_set_elements");
+    struct List* intList1 = get_set_elements(intSet2);
+    printf("%d\n", get_list_size(intList1));
+    struct List* stringList1 = get_set_elements(stringSet2);
+    printf("%d\n", get_list_size(stringList1));
 }

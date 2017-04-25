@@ -22,6 +22,8 @@ bool check_set_element(struct Set *set, ...);
 
 struct Set *put_set(struct Set *set, ...);
 
+struct List *get_set_elements(struct Set *set);
+
 int32_t get_set_type(struct Set *set);
 
 int32_t get_set_size(struct Set *set);
