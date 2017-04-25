@@ -120,14 +120,14 @@ struct Set *put_set(struct Set *set, ...) {
     return set;
 }
 
-struct List* get_set_elements(struct Set* set) {
+struct List *get_set_elements(struct Set *set) {
     // Corner case
     if (set == NULL) {
         printf("%s\n", "Error! get-set_elements : Set does not exist.\n");
         exit(1);
     }
 
-    struct List* list;
+    struct List *list;
     int i;
 
     switch (set->type) {
@@ -153,7 +153,7 @@ struct List* get_set_elements(struct Set* set) {
             list = create_list(BOOL);
             list->type = BOOL;
             list->size = set->size;
-            for (i = 0 ; i < set->size; i++) {
+            for (i = 0; i < set->size; i++) {
                 list = plus_list(list, voidTobool(get_list_element(set->data, i)));
             }
             return list;
@@ -174,6 +174,25 @@ struct List* get_set_elements(struct Set* set) {
     return list;
 }
 
+int set_iterate(struct Set *set, Func f) {
+    // Corner case
+    if (set == NULL) {
+        printf("Error! set_iterate : Set does not exist.\n");
+        exit(1);
+    } else if (get_set_size(set) < 0) {
+        return SET_MISSING;
+    }
+
+    for (int i = 0; i < get_set_size(set); i++) {
+        int status = f(set->data->value + i);
+        if (status != SET_OK) {
+            return status;
+        }
+    }
+
+    return SET_OK;
+}
+
 int32_t get_set_type(struct Set *set) {
     if (set == NULL) {
         printf("%s\n", "Error! get_set_type : Set does not exist.\n");
@@ -190,6 +209,20 @@ int32_t get_set_size(struct Set *set) {
     }
 
     return set->size;
+}
+
+
+int test_int_set_iterate(void** data) {
+    printf("%s", "SET ELEMENT: ");
+    printf("%d\n", voidToint(*data));
+
+    return SET_OK;
+}
+
+int test_int_set_iterate_2(void** data) {
+    int value = voidToint(*data) + 1;
+    *data = intTovoid(value);
+    return SET_OK;
 }
 
 
@@ -212,7 +245,7 @@ int main() {
 
     // Test function: put_set, get_set_size
     printf("%s\n", "TEST: put_set, get_set_size");
-    struct Set* intSet2 = create_set(INT);
+    struct Set *intSet2 = create_set(INT);
     intSet2 = put_set(intSet2, 1);
     printf("%d\n", get_set_size(intSet2));
     assert(get_set_size(intSet2) == 1);
@@ -223,7 +256,7 @@ int main() {
     printf("%d\n", get_set_size(intSet2));
     assert(get_set_size(intSet2) == 3);
 
-    struct Set* stringSet2 = create_set(STRING);
+    struct Set *stringSet2 = create_set(STRING);
     stringSet2 = put_set(stringSet2, "hello");
     printf("%d\n", get_set_size(stringSet2));
     assert(get_set_size(stringSet2) == 1);
@@ -237,8 +270,15 @@ int main() {
 
     // Test function: get_set_elements
     printf("%s\n", "TEST: get_set_elements");
-    struct List* intList1 = get_set_elements(intSet2);
+    struct List *intList1 = get_set_elements(intSet2);
     printf("%d\n", get_list_size(intList1));
-    struct List* stringList1 = get_set_elements(stringSet2);
+    struct List *stringList1 = get_set_elements(stringSet2);
     printf("%d\n", get_list_size(stringList1));
+
+
+    // Test function: set_iterate
+    printf("%s\n", "TEST: set_iterate");
+    int status = set_iterate(intSet2, test_int_set_iterate);
+    status = set_iterate(intSet2, test_int_set_iterate_2);
+    status = set_iterate(intSet2, test_int_set_iterate);
 }
