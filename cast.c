@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include "cast.h"
-
 
 int32_t voidToint(void* pointer) {
     return *((int32_t*) pointer);
@@ -21,6 +16,9 @@ char* voidTostring(void* pointer) {
     return (char*) pointer;
 }
 
+// struct Node voidTonode(void* pointer) {
+//     return *((struct Node*) pointer);
+// }
 
 void* intTovoid(int32_t value) {
     int* value_pointer = (int*)malloc(sizeof(int32_t));
@@ -43,3 +41,11 @@ void* boolTovoid(bool value) {
 void* stringTovoid(char* value) {
     return (void*) value;
 }
+
+// void* nodeTovoid(struct Node value){
+//     return (void*)value;
+// }
+
+//int main() {
+//    return 0;
+//}

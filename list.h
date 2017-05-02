@@ -1,13 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <stdbool.h>
-
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <stdint.h>
+//#include <stdarg.h>
+//#include <stdbool.h>
 
 #ifndef TUSIMPLELIB_LIST_H
 #define TUSIMPLELIB_LIST_H
 
+#include "config.h"
+#include "cast.h"
 
 struct List {
     int32_t size;
