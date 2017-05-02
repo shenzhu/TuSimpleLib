@@ -45,7 +45,7 @@ struct Node {
 struct Graph {
     char* name;
     struct List* nodes;
-    struct List* weight;
+    // struct List* weight;
     struct hashmap* hashmap;
 };
 

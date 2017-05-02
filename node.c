@@ -105,9 +105,10 @@ int main(){
 	printf("%s\n", getNodeName(iterNode(a, 0)));
 	printf("%f\n", weightIterNode(a, 0));
 
-	struct Node *c = createNode("c", FLOAT, 5.22);
+	struct Node *c = createNode("c", BOOL, false);
 	addNodeEdge(a, c, 2);
-	printf("%f\n", voidTofloat(getNodeValue(iterNode(a, 1))));
-
+	printf("%s\n", getNodeName(iterNode(a, 1)));
+	// printf("%f\n", voidTobool(getNodeValue(iterNode(a, 1))));
+	printf("%f\n", voidTobool(iterNode(a, 1)->value));
 	return 0;
 }
