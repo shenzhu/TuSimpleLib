@@ -14,6 +14,7 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
+#include "cast.c"
 
 
 #define INT 0

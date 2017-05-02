@@ -8,7 +8,6 @@
 #define TUSIMPLELIB_LIST_H
 
 #include "config.h"
-#include "cast.h"
 
 struct List {
     int32_t size;
