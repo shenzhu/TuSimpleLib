@@ -20,6 +20,7 @@
 #define FLOAT 1
 #define BOOL 2
 #define STRING 3
+#define NODE 4
 
 
 #endif //LIB_CONFIG_H
