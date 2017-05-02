@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "utils.h"
+#include "list.h"
 
 // struct Node {
 // 	int32_t type;

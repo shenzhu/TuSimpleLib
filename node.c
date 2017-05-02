@@ -54,6 +54,7 @@ void addNodeEdge(struct Node* node1, struct Node* node2, double weight){
 		node1->nodes = create_list(STRING);
 		node1->weight = create_list(FLOAT);
 	}
+	printf("EXECUTED at addNodeEdge");
 	plus_list(node1->nodes, getNodeName(node2));
 	plus_list(node1->weight, weight);
 	// printf("%d\n", voidToint(newEdge->value));
@@ -85,15 +86,28 @@ double weightIterNode(struct Node* node, int index){
 int main(){
 	struct Node *a = createNode("a", INT, 13);
 	printf("%d\n", voidToint(getNodeValue(a)));
+	printf("%s\n", getNodeName(a));
 
-	struct Node *b = createNode("b", INT, 11);
-	addNodeEdge(a, b, 1.11);
-	printf("%s\n", nameIterNode(a, 0));
-	printf("%f\n", weightIterNode(a, 0));
+	printf("TEST : List of Node\n");
+	struct Node *node1 = createNode("node1", INT, 1);
+	struct Node *node2 = createNode("node2", INT, 2);
+	struct List *nodeListTest1 = create_list(4);
+	printf("%d\n", nodeListTest1->type);
+	printf("%d\n", get_list_size(nodeListTest1));
+	plus_list(nodeListTest1, node1);
+	printf("%d\n", get_list_size(nodeListTest1));
 
-	struct Node *c = createNode("c", BOOL, false);
-	addNodeEdge(a, c, 2);
-	printf("%s\n", nameIterNode(a, 1));
+	struct Node *node3 = get_list_element(nodeListTest1, 0);
+	printf("%s\n", getNodeName(node3));
+
+	// struct Node *b = createNode("b", INT, 11);
+	// addNodeEdge(a, b, 1.11);
+	// printf("%s\n", nameIterNode(a, 0));
+	// printf("%f\n", weightIterNode(a, 0));
+
+	// struct Node *c = createNode("c", BOOL, false);
+	// addNodeEdge(a, c, 2);
+	// printf("%s\n", nameIterNode(a, 1));
 
 	return 0;
 }

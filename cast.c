@@ -16,6 +16,10 @@ char* voidTostring(void* pointer) {
     return (char*) pointer;
 }
 
+struct Node* voidTonode(void* pointer) {
+    return (struct Node*) pointer;
+}
+
 // struct Node voidTonode(void* pointer) {
 //     return *((struct Node*) pointer);
 // }
@@ -39,6 +43,10 @@ void* boolTovoid(bool value) {
 }
 
 void* stringTovoid(char* value) {
+    return (void*) value;
+}
+
+void* nodeTovoid(struct Node* value) {
     return (void*) value;
 }
 
