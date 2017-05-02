@@ -62,7 +62,7 @@ void addNodeEdge(struct Node* node1, struct Node* node2, double weight){
 
 char* nameIterNode(struct Node* node, int index){
 	int size = get_list_size(node->nodes);
-	// printf("%d\n", size);
+	printf("%d\n", size);
 	if (0<=index && index<size)
 		return voidTostring(get_list_element(node->nodes, index));
 	else{

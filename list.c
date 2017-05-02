@@ -255,11 +255,11 @@ bool check_list_element(struct List *list, ...) {
 //     printf("%s\n", "TEST: create_list");
 //     struct List *intList = create_list(0);
 //     printf("%d\n", intList->type);
-//
+
 //     struct List *doubleList = create_list(1);
 //     printf("%d\n", doubleList->type);
-//
-//
+
+
 //     // Test function: plus_list
 //     printf("%s\n", "TEST: plus_list");
 //     struct List *intListTest = create_list(INT);
@@ -273,29 +273,29 @@ bool check_list_element(struct List *list, ...) {
 //     stringListTest = plus_list(stringListTest, str2);
 //     printf("%s\n", voidTostring(pop_list_element(stringListTest)));
 //     printf("%s\n", voidTostring(pop_list_element(stringListTest)));
-//
-//
-//
+
+
+
 //     // Test function: get_list_element, get_list_size
 //     printf("%s\n", "TEST: get_list_element, get_list_size");
 //     struct List *intListTest1;
 //     intListTest1 = create_list(INT);
 //     intListTest1 = plus_list(intListTest1, 10);
 //     printf("%d\n", get_list_size(intListTest1));
-//
+
 //     intListTest1 = plus_list(intListTest1, 20);
 //     printf("%d\n", get_list_size(intListTest1));
-//
+
 //     intListTest1 = plus_list(intListTest1, 30);
 //     printf("%d\n", get_list_size(intListTest1));
-//
+
 //     printf("%d\n", intListTest1->type);
 //     printf("%d\n", intListTest1->size);
 //     void *intVoidPointerTest = get_list_element(intListTest1, 2);
 //     int intTest = voidToint(intVoidPointerTest);
 //     printf("%d\n", intTest);
-//
-//
+
+
 //     // Test function: pop_list_element
 //     printf("%s\n", "TEST: pop_list_element");
 //     struct List *intListTest2;
@@ -309,8 +309,8 @@ bool check_list_element(struct List *list, ...) {
 //     intListTest2 = plus_list(intListTest2, 10);
 //     intListTest2 = plus_list(intListTest2, 20);
 //     intListTest2 = plus_list(intListTest2, 30);
-//
-//
+
+
 //     // Test function: remove_list_element
 //     printf("%s\n", "TEST: remove_list_element");
 //     struct List *intListTest3;
@@ -326,8 +326,8 @@ bool check_list_element(struct List *list, ...) {
 //     printf("%d\n", voidToint(remove_list_element(intListTest3, 0)));
 //     printf("%d\n", get_list_size(intListTest3));
 //     intListTest3 = plus_list(intListTest3, 40);
-//
-//
+
+
 //     // Test function: check_list_element
 //     printf("%s\n", "TEST: check_list_element");
 //     printf("%d\n", check_list_element(intListTest2, 10));
@@ -338,7 +338,7 @@ bool check_list_element(struct List *list, ...) {
 //     assert(check_list_element(intListTest2, 30) == 1);
 //     printf("%d\n", check_list_element(intListTest2, 40));
 //     assert(check_list_element(intListTest2, 40) == 0);
-//
+
 //     struct List* stringListTest2 = create_list(STRING);
 //     stringListTest2 = plus_list(stringListTest2, "hello");
 //     stringListTest2 = plus_list(stringListTest2, "world");
@@ -346,14 +346,14 @@ bool check_list_element(struct List *list, ...) {
 //     printf("%d\n", check_list_element(stringListTest2, "hello"));
 //     printf("%d\n", check_list_element(stringListTest2, "world"));
 //     printf("%d\n", check_list_element(stringListTest2, "columbia"));
-//
-//
+
+
 //     // Test function: concat_list
 //     printf("TEST: concat_list\n");
 //     printf("%d\n", get_list_size(intListTest2));
 //     printf("%d\n", get_list_size(intListTest3));
 //     struct List* concatListTest = concat_list(intListTest2, intListTest3);
 //     printf("%d\n", get_list_size(concatListTest));
-//
+
 //     return 0;
 // }
