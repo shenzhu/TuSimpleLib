@@ -3,12 +3,11 @@
 //#include <stdint.h>
 //#include <stdarg.h>
 //#include <stdbool.h>
+#include "config.h"
 
 #ifndef TUSIMPLELIB_LIST_H
 #define TUSIMPLELIB_LIST_H
 
-#include "config.h"
-#include "utils.h"
 
 // struct List {
 //     int32_t size;
@@ -16,6 +15,7 @@
 //     void **value;
 //     int32_t currPos;
 // };
+
 
 
 // Functions for list

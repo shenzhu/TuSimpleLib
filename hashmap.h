@@ -1,15 +1,9 @@
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdarg.h>
-#include "list.h"
-
-
 #ifndef TUSIMPLELIB_HASHMAP_H
 #define TUSIMPLELIB_HASHMAP_H
 
+
+#include "config.h"
+#include "utils.h"
 
 #define MAP_MISSING -3  /* No such element */
 #define MAP_FULL -2    /* Hashmap is full */
@@ -18,19 +12,19 @@
 
 
 // Define data structure
-struct hashmap_element {
-    char *key;
-    int used;
-    void *data[2];
-};
+// struct hashmap_element {
+//     char *key;
+//     int used;
+//     void *data[2];
+// };
 
-struct hashmap {
-    int tableSize;
-    int size;
-    int32_t keyType;
-    int32_t valueType;
-    struct hashmap_element *data;
-};
+// struct hashmap {
+//     int tableSize;
+//     int size;
+//     int32_t keyType;
+//     int32_t valueType;
+//     struct hashmap_element *data;
+// };
 
 
 typedef int (*Func)(void *, void *, void *);

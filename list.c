@@ -9,6 +9,8 @@
 //#include "cast.c"
 
 #include "list.h"
+#include "utils.h"
+
 
 struct List *create_list(int32_t type) {
     struct List *newList = (struct List *) malloc(sizeof(struct List));
@@ -138,6 +140,7 @@ struct List *concat_list(struct List *list1, struct List *list2) {
             for (i = 0; i < size2; i++) {
                 list1 = plus_list(list1, voidTonode(list2->value + i));
             }
+            break;
 
         default:
             break;
@@ -275,8 +278,6 @@ bool check_list_element(struct List *list, ...) {
 //     printf("%s\n", "TEST: create_list");
 //     struct List *intList = create_list(0);
 //     printf("%d\n", intList->type);
-//     struct List *nodeListTest = create_list(4);
-//     printf("%d\n", nodeListTest->type);
 
 //     struct List *doubleList = create_list(1);
 //     printf("%d\n", doubleList->type);

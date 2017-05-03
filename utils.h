@@ -1,9 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-
 #include "config.h"
-
 
 // Define Data Structures
 struct List {

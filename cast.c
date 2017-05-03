@@ -1,5 +1,6 @@
 #include "cast.h"
 
+
 int32_t voidToint(void* pointer) {
     return *((int32_t*) pointer);
 }
@@ -20,9 +21,6 @@ struct Node* voidTonode(void* pointer) {
     return (struct Node*) pointer;
 }
 
-// struct Node voidTonode(void* pointer) {
-//     return *((struct Node*) pointer);
-// }
 
 void* intTovoid(int32_t value) {
     int* value_pointer = (int*)malloc(sizeof(int32_t));
@@ -49,10 +47,6 @@ void* stringTovoid(char* value) {
 void* nodeTovoid(struct Node* value) {
     return (void*) value;
 }
-
-// void* nodeTovoid(struct Node value){
-//     return (void*)value;
-// }
 
 //int main() {
 //    return 0;
